@@ -13,6 +13,16 @@ class ServiceConfig (object):
         if not hasattr(self,'verbose_name'):
             self.verbose_name = self.label.title()
 
+        if not hasattr(self,'address'):
+            self.address = service_name.rpartition(".")[2].lower()
+
+    @classmethod
+    def new(cls,service):
+        if not isinstance(service,ServiceConfig):
+            raise ValueError("Invalid service object")
+        cls = getattr(service.module,service.name)
+        return cls(service.name,service.module)
+      
     @classmethod
     def create(cls,entry):
         """
@@ -46,12 +56,12 @@ class ServiceConfig (object):
         try:
             app_name = cls.name
         except AttributeError:
-            raise ImproperlyConfigured(
-                "'%s' must supply a name attribute." % entry)
+            return cls(cls_name,mod)
 
-        app_module = import_module(app_name)
+        app_module = import_module(cls_name)
 
-        return cls(app_name,app_module)
+        return cls(app_name, app_module)
+
         
 
 

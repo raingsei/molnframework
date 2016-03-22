@@ -1,4 +1,4 @@
-﻿from __future__ import unicode_literals
+from __future__ import unicode_literals
 
 import os
 import pkgutil
@@ -13,8 +13,9 @@ import molnframework
 from molnframework.conf import settings
 from molnframework.utils import apps
 from molnframework.core.exception import ImproperlyConfigured
-from molnframework.core.base import (
+from molnframework.core.management.base import (
     CommandParser,handle_default_options)
+from molnframework.utils.djangotool import server
 
 def find_commands(management_dir):
     command_dir = os.path.join(management_dir, 'commands')
@@ -24,7 +25,6 @@ def find_commands(management_dir):
 def load_command_class(app_name, name):
     module = import_module('%s.management.commands.%s' % (app_name, name))
     return module.Command()
-
 
 @functools.lru_cache(maxsize=None)
 def get_commands():
@@ -92,19 +92,23 @@ class AppCommandUtility(object):
             else:
                 molnframework.setup()
 
-        if subcommand == 'help':
-            if '--commands' in args:
-                sys.stdout.write(self.main_help_text(commands_only=True) + '\n')
-            elif len(options.args) < 1:
-                sys.stdout.write(self.main_help_text() + '\n')
-            else:
-                self.fetch_command(options.args[0]).print_help(self.prog_name, options.args[0])
-        elif subcommand == 'version' or self.argv[1:] == ['--version']:
-            sys.stdout.write(molnframework.get_version() + '\n')
-        elif self.argv[1:] in (['--help'], ['-h']):
-            sys.stdout.write(self.main_help_text() + '\n')
-        else:
-            self.fetch_command(subcommand).run_from_argv(self.argv)
+        server.start()
+
+        # TODO: activate command system once the framework is stable
+
+        #if subcommand == 'help':
+        #    if '--commands' in args:
+        #        sys.stdout.write(self.main_help_text(commands_only=True) + '\n')
+        #    elif len(options.args) < 1:
+        #        sys.stdout.write(self.main_help_text() + '\n')
+        #    else:
+        #        self.fetch_command(options.args[0]).print_help(self.prog_name, options.args[0])
+        #elif subcommand == 'version' or self.argv[1:] == ['--version']:
+        #    sys.stdout.write(molnframework.get_version() + '\n')
+        #elif self.argv[1:] in (['--help'], ['-h']):
+        #    sys.stdout.write(self.main_help_text() + '\n')
+        #else:
+        #    self.fetch_command(subcommand).run_from_argv(self.argv)
 
 def execute_command_line(argv=None):
     """

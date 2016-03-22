@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework", "molnframework.pyproj", "{47AA7838-9648-4F54-8E41-BA56348BBB50}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_sample", "molnframework_sample.pyproj", "{0CDEF47F-9D9D-48BB-B239-E9C041FE1D01}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sample", "sample.pyproj", "{0CDEF47F-9D9D-48BB-B239-E9C041FE1D01}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_server", "molnframework_server.pyproj", "{CC27B9E3-E638-4C29-BC52-15D034CC197C}"
 EndProject

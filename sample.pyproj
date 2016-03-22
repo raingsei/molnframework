@@ -10,7 +10,7 @@
     <SearchPath>..\molnframework\molnframework\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>molnframework_sample</Name>
+    <Name>sample</Name>
     <RootNamespace>molnframework.sample</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <CommandLineArguments>runserver --noreload --nothreading</CommandLineArguments>
@@ -27,6 +27,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="sample\rhino\func2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sample\rhino\func1.py">
       <SubType>Code</SubType>
     </Compile>

@@ -9,5 +9,5 @@ def setup():
 
     from molnframework.utils import apps
     from molnframework.conf import settings
-    
+   
     apps.populate(settings.INSTALLED_SERVICES)

@@ -31,13 +31,34 @@
     <Compile Include="molnframework\conf\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="molnframework\core\base.py">
+    <Compile Include="molnframework\core\management\color.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\exception.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="molnframework\core\management.py">
+    <Compile Include="molnframework\core\management\base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\management\command\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\management\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\mapper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\parameter.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\result.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\__init__.py">
@@ -46,7 +67,7 @@
     <Compile Include="molnframework\meta\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="molnframework\utils\apps.py">
+    <Compile Include="molnframework\utils\attribute.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\utils\config.py">
@@ -67,6 +88,9 @@
     <Compile Include="molnframework\utils\six.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\utils\termcolors.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\utils\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +102,9 @@
     <Folder Include="molnframework\" />
     <Folder Include="molnframework\conf\" />
     <Folder Include="molnframework\core\" />
+    <Folder Include="molnframework\core\management\" />
+    <Folder Include="molnframework\core\management\command\" />
+    <Folder Include="molnframework\core\service\" />
     <Folder Include="molnframework\meta\" />
     <Folder Include="molnframework\utils\" />
   </ItemGroup>
