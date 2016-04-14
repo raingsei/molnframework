@@ -124,6 +124,9 @@
     <Compile Include="molnframework\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="molnframework\" />
@@ -139,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{78f25b16-16db-4776-a990-ab25493425b2}\3.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
