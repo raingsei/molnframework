@@ -6,6 +6,7 @@ from molnframework.utils.config import ServiceConfig
 class ServiceDefault (object):
     Defaults =  {
         "is_single_instance":False,
+        "serialize_type":"json",
     }
 
 class ServiceBase(ServiceConfig):

@@ -16,6 +16,17 @@ class ParameterType (Enum):
     Integer = 1
     String = 2
 
+    def __str__(self):
+        if self is ParameterType.Double:
+            return "Double"
+        elif self is ParameterType.Integer:
+            return "Integer"
+        elif self is ParameterType.String:
+            return "String"
+        else:
+            raise NotImplementedError()
+
+
 def get_parameter_type(parameter):
 
     if isinstance(parameter,int):
@@ -44,12 +55,18 @@ class ParameterInfo (object):
 class ParameterMeta (object):
     def __init__(self,data):
 
-        self.data = []
+        self.data = list()
         if data is not None and isinstance(data,list):
             for item in data:
                 if not isinstance(item,ParameterInfo):
                     raise ValueError("Invalid data item! They must be ParameterInfo")
             self.data = data
+
+    def __iter__(self):
+        return self.data.__iter__()
+
+    def count(self):
+        return len(self.data)
     
     @classmethod
     def get_meta(cls,service_instance):

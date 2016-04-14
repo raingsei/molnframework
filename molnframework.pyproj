@@ -46,10 +46,37 @@
     <Compile Include="molnframework\core\management\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\core\manager\api.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\manager\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\serialisers\base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\serialisers\python.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\serialisers\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\core\service\base.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\core\serialisers\json.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\utils\client.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\connection.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\core\service\mapper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\service\metadata.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\service\parameter.py">
@@ -104,12 +131,11 @@
     <Folder Include="molnframework\core\" />
     <Folder Include="molnframework\core\management\" />
     <Folder Include="molnframework\core\management\command\" />
+    <Folder Include="molnframework\core\manager\" />
+    <Folder Include="molnframework\core\serialisers\" />
     <Folder Include="molnframework\core\service\" />
     <Folder Include="molnframework\meta\" />
     <Folder Include="molnframework\utils\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{78f25b16-16db-4776-a990-ab25493425b2}\3.5" />

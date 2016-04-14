@@ -1,5 +1,8 @@
 import re
 import six
+import socket
+import threading
+import time
 from datetime import datetime
 from functools import lru_cache
 from collections import OrderedDict
@@ -9,11 +12,14 @@ from django.http import Http404
 
 from molnframework.utils.config import ServiceConfig
 from molnframework.utils import apps
+from molnframework.conf import settings
 from molnframework.core.service.parameter import ParameterType,ParameterInfo,ParameterMeta
 from molnframework.core.service.result import ExecutionResult
 from molnframework.core.exception import ImproperlyConfigured
 from molnframework_server.urls import urlpatterns
 from molnframework.core.service.base import ServiceBase
+from molnframework.core.service.metadata import ServiceMetadata
+from molnframework.core.manager.api import MannagerConnector
 
 
 class ServiceResolver404(Http404):
@@ -33,17 +39,14 @@ class ServiceLabelResolver(object):
             try:
                 self._compiled_reg = re.compile(self._regex,re.UNICODE)
             except re.error as e:
-                    raise ImproperlyConfigured(
-                        '"%s" is not a valid regular expression: %s' %
-                        (self._regex, six.text_type(e))
-                    )
+                    raise ImproperlyConfigured('"%s" is not a valid regular expression: %s' % (self._regex, six.text_type(e)))
         return self._compiled_reg
 
     @classmethod
     def get_resolver(cls):
          return cls(r'^/')
 
-class ServiceDecorator (object):
+class ServiceDecorator(object):
     regexp_lookup = {
         ParameterType.Integer:'(-?\d+$)',
         ParameterType.Double:'(-?\d*\.{0,1}\d+)',
@@ -69,7 +72,7 @@ class ServiceDecorator (object):
 
         return r'^%s/%s' % (self.service.address , builder)
 
-    def get_meta (self):
+    def get_meta(self):
         return self.meta
 
     def get_service(self):
@@ -98,16 +101,16 @@ class ServiceDecorator (object):
 
     def execute(self,request,args):
 
-        # get service object 
+        # get service object
         service = self.get_service()
 
-        # get meta 
+        # get meta
         meta = self.get_meta()
 
         # parse value to the respected field
         ParameterMeta.parse_values(service,meta,args)
 
-        # execute 
+        # execute
         try:
             start = datetime.utcnow() 
             result = service.execute()
@@ -118,8 +121,7 @@ class ServiceDecorator (object):
         except:
             raise ServiceExecuteException("Execute service contains errors!")
 
-
-class ServiceManager (object):
+class ServiceManager(object):
 
     def __init__(self):
         self.registered_services = OrderedDict()
@@ -139,16 +141,24 @@ class ServiceManager (object):
                 if not decorated_service.resolve(new_path):
                     continue
 
-                service_values  = None
+                service_values = None
                 if len(args) > 1:
                     service_values = args[1:]
 
-                    result  = decorated_service.execute(request,service_values)
+                    # execute the service
+                    result = decorated_service.execute(request,service_values)
+
+                    # TODO
+                    # This can introduct a middle layer to process the 
+                    # result
+
+                    # serialize the service
+
 
 
         return HttpResponse("Hello,world jdfffjdj")
 
-    def register_services (self):
+    def _build_app(self):
 
         apps.check_services_ready()
 
@@ -162,8 +172,54 @@ class ServiceManager (object):
             label = decorated_service.get_label()
             
             self.registered_services[label] = decorated_service
-            urlpatterns.append(
-                url(url_pattern,self._get_response,
+            urlpatterns.append(url(url_pattern,self._get_response,
                     name=decorated_service.get_name()))
+
+    def _check_server(self,address,port):
+        
+        # TODO
+        # There must be a timeout there
+
+        is_ready = False
+        while True:
+            conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            try:
+                conn.settimeout(1)
+                conn.connect((address,int(port)))
+                conn.close()
+                is_ready = True
+            except:
+                pass
+            if is_ready:
+                break
+            else:
+                time.sleep(1)
+
+
+    def _inner_start(self,address,port):
+
+        # make sure the server is ready
+        self._check_server(address,port)
+
+        # register services with the manager
+
+        for service in apps.get_service_configs():
+            pass
+        
+
+    def start(self,address,port):
+
+        # building application
+        self._build_app()
+
+        # start background executions
+        # TODO 
+        # Should this method executed in background thread manner?
+        # threading.Thread(target=self._inner_start,args=(address,port)).start()
+        
+        #self.connector = MannagerConnector(settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
+        #for service in apps.get_service_configs():
+        #    self.connector.register_service(service)
+
 
 manager = ServiceManager()

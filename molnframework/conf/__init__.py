@@ -104,6 +104,12 @@ class Settings(BaseSettings):
 
         if not self.SECRET_KEY:
             raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+        
+        if self.PORT == '':
+            self.PORT = '8000'
+
+        if self.HOST == '':
+            self.HOST = '127.0.0.1'
 
         if hasattr(time, 'tzset') and self.TIME_ZONE:
             # When we can, attempt to validate the timezone. If we can't find

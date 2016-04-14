@@ -1,7 +1,0 @@
-astroid==1.4.4
-colorama==0.3.7
-Django==1.9.4
-lazy-object-proxy==1.2.1
-pylint==1.5.4
-six==1.10.0
-wrapt==1.10.6

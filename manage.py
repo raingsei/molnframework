@@ -1,12 +1,15 @@
-﻿#!/usr/bin/evn python
+#!/usr/bin/evn python
 """ 
 Command-line utility for administrative task
 """
 
 import os
 import sys
+from molnframework.core import serialisers
 
 if __name__ == "__main__":
+
+    """ Just Keep It """
 
     ##os.environ.setdefault("MOLNFRAMEWORK_SETTINGS_MODULE","sample.settings")
     ##from molnframework.core.management import execute_command_line
@@ -33,9 +36,37 @@ if __name__ == "__main__":
 
     #execute_from_command_line(sys.argv)
 
-    os.environ.setdefault("MOLNFRAMEWORK_SETTINGS_MODULE","sample.settings")
-    from molnframework.core.management import execute_command_line
-    execute_command_line(sys.argv)
+    """ ----- """
 
+    #os.environ.setdefault("MOLNFRAMEWORK_SETTINGS_MODULE","sample.settings")
+    #from molnframework.core.management import execute_command_line
+    #execute_command_line(sys.argv)
 
+    class Inner(object):
+        def __init__(self):
+            self.C1 = 0
+            self.C2 = 1
 
+    class A(object):
+        def __init__(self):
+            self.A1 = 0
+            self.A2 = 1
+            self.A3 = 2
+            self.C = Inner()
+
+    class B(A):
+        def __init__(self):
+            super(B,self).__init__()
+
+            self.B1 = 0
+            self.B2 = 1
+            self.B3 = 2
+
+    objs = [B(),B()]
+
+    json = serialisers.serialise("json",objs)
+    ss =serialisers.deserialise("json",json)
+
+    for item in ss:
+        print(item)
+   

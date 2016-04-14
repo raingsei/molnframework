@@ -5,8 +5,13 @@ from collections import Counter, OrderedDict, defaultdict
 from django.conf.urls import url
 from django.core.management import execute_from_command_line as django_execute
 from molnframework.utils import apps
+from molnframework.conf import settings
 from molnframework.core.service import manager
+from molnframework.core.service.metadata import ServiceMetadata
 from molnframework_server.urls import urlpatterns
+from threading import Thread
+import time
+
 
 class StartDjangoServerException(Exception):
     pass
@@ -14,6 +19,10 @@ class StartDjangoServerException(Exception):
 def install_service(service_url):
     pass
 
+def test ():
+    for i in range(0,100):
+        time.sleep(1)
+        print (i)
 
 class DjangoServerUtility (object):
 
@@ -42,8 +51,11 @@ class DjangoServerUtility (object):
         # set server settings
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "molnframework_server.settings")
 
-        # install services
-        manager.register_services()
+        # start the manager
+        manager.start(settings.HOST,settings.PORT)
+
+        #Thread(target=test).start()
+
 
         # start server 
         django_execute(self.django_argv)
