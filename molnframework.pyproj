@@ -67,6 +67,9 @@
     <Compile Include="molnframework\core\serialisers\json.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\core\service\monitoring.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\utils\client.py">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +116,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\utils\six.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\utils\system.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\utils\termcolors.py">

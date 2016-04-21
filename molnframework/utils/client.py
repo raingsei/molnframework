@@ -1,6 +1,7 @@
 import http.client
 import urllib.parse
 import enum
+import json
 
 class RequestBuilder(http.client.HTTPConnection):
 
@@ -35,7 +36,59 @@ class RequestBuilder(http.client.HTTPConnection):
 
         return self.getresponse()
 
+class RequestResponse(object):
+    def __init__(self, raw):
+        assert isinstance(raw, http.client.HTTPResponse)
+        self._raw = raw
+
+    @property
+    def status(self):
+        return self._raw.status
+      
+    @property
+    def reason(self):
+        return self._raw.reason
+
+    @property
+    def date(self):
+        return self._raw.getheader("Date")
+
+    @property
+    def content_type(self):
+        return self._raw.getheader("Content-type")
+    
+    @property
+    def server(self):
+        return self._raw.getheader("Server")
+
+    @property
+    def x_Frame_options(self):
+        return self._raw.getheader("X-Frame-Options")
+    
+    @property
+    def body(self):
+        data =  self._raw.read().decode("utf-8")
+        return data
         
+    @staticmethod
+    def create(response):
+
+        assert isinstance(response, http.client.HTTPResponse)
+        
+        if response.getheader("Content-type") == "application/json":
+            return JSONReponse(response)
+        else:
+            return RequestResponse(response)
+
+class JSONReponse(RequestResponse):
+    def __init__(self, raw):
+        super(JSONReponse,self).__init__(raw)
+        self._dict = json.loads(self.body)
+
+    def __getitem__(self,key):
+        if self.status != 200:
+            return None
+        return self._dict[key]
 
 class Client(RequestBuilder):
 
@@ -54,5 +107,6 @@ class Client(RequestBuilder):
         """
         Requests a reponse from the server using POST
         """
+        response = super(Client,self).post(url,data,content_type)
         
-        return super(Client,self).post(url,data,content_type)
+        return RequestResponse.create(response)

@@ -31,6 +31,7 @@
     <Folder Include="molnframework_manager\" />
     <Folder Include="molnframework_manager\app\" />
     <Folder Include="molnframework_manager\app\logic\" />
+    <Folder Include="molnframework_manager\app\monitoring\" />
     <Folder Include="molnframework_manager\app\static\" />
     <Folder Include="molnframework_manager\app\static\app\" />
     <Folder Include="molnframework_manager\app\static\app\content\" />
@@ -83,6 +84,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework_manager\app\models.py" />
+    <Compile Include="molnframework_manager\app\monitoring\middleware.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework_manager\app\monitoring\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework_manager\app\events.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework_manager\app\tests.py" />
     <Compile Include="molnframework_manager\app\views.py" />
     <Compile Include="molnframework_manager\app\__init__.py" />

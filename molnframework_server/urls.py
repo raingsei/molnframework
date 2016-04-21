@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from molnframework_server import api
 
-urlpatterns = []
+#urlpatterns = []
 
-#urlpatterns = [
-#    url(r'^admin/', admin.site.urls),
-#]
+urlpatterns = [
+    url(r'^gethealth/', api.get_status),
+]

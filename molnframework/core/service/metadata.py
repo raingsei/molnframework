@@ -1,7 +1,34 @@
 from molnframework.conf import settings
+from molnframework.utils.system import SystemInfo
 from molnframework.core.service.base import ServiceBase
 from molnframework.core.service.parameter import ParameterMeta
 import json
+import socket
+
+class PodMetaData(object):
+    """
+    Get pod information
+    """
+
+    def __init__(self,address,port):
+        self._address = address
+        self._port = port
+        self._builder = dict()
+
+        if self._port is None:
+            self._full_address = self._address
+        else:
+            self._full_address = "%s:%s" % (self._address,self._port)
+
+        #Build information
+        self._builder['app_name'] = settings.APP_NAME
+        self._builder['pod_address'] = self._full_address
+        self._builder['pod_name'] =socket.gethostname()
+        self._builder['pod_info'] = SystemInfo.get_system_info()
+
+    def get(self):
+        return json.dumps(self._builder)
+
 
 class ServiceMetadata(object):
     """
@@ -20,11 +47,18 @@ class ServiceMetadata(object):
         for parameter in pmeta:
             praw.append({'name':parameter.name, 'type':str(parameter.type)})
 
+        if settings.PORT is None:
+            full_address = settings.HOST
+        else:
+            full_address = "%s:%s" % (settings.HOST,settings.PORT)
+
         # build information
         self._builder['app_name'] = settings.APP_NAME
+        self._builder['pod_name'] =socket.gethostname()
+        self._builder['pod_address'] = full_address
         self._builder['service_name'] = service.name
         self._builder['service_verbose_name'] = service.address
-        self._builder['service_url'] = "http://%s:%s/%s/" % (settings.HOST,settings.PORT,service.address)
+        self._builder['service_url'] = "http://%s/%s/" % (full_address,service.address)
         self._builder['service_parameter_count'] = pmeta.count()
         self._builder['service_parameters'] = praw
 

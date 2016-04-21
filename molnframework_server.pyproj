@@ -24,6 +24,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="molnframework_server\api.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework_server\settings.py" />
     <Compile Include="molnframework_server\urls.py" />
     <Compile Include="molnframework_server\wsgi.py" />

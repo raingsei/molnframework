@@ -27,10 +27,15 @@ class Serialiser(base.Serialiser):
         return self.objects
 
 def Deserializer(object_list, **options):
+
+    class DummyObject(object):
+        pass
+
+
     # create new object 
-    dummy = object()
-    for key in object_list:
-        setattr(self, key, object_list[key])
+    dummy = DummyObject()
+    dummy.__dict__.update(object_list)
+    return dummy
 
 
 

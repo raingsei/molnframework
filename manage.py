@@ -62,11 +62,12 @@ if __name__ == "__main__":
             self.B2 = 1
             self.B3 = 2
 
-    objs = [B(),B()]
+    #objs = [B(),B()]
+    objs = [1,2]
 
     json = serialisers.serialise("json",objs)
     ss =serialisers.deserialise("json",json)
 
     for item in ss:
-        print(item)
-   
+        print(item.B1)
+    ddd = ss

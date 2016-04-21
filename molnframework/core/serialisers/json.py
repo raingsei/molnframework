@@ -88,8 +88,8 @@ def Deserialiser(stream_or_string, **options):
     #return json.loads(stream_or_string)
     try:
         objects = json.loads(stream_or_string)
-        for obj in BaseSerialiser.Deserialiser(objects,**options):
-            yield obj
+        for obj in objects:
+            yield BaseDerialiser(obj,**options)
     except GeneratorExit:
         raise
     except Exception as e:
