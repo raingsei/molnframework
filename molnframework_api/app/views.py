@@ -9,7 +9,6 @@ from django.http import HttpRequest,HttpResponse,HttpResponseBadRequest,JsonResp
 from django.template import RequestContext
 
 from .logic.addlogics import AddComputeServiceLogic, AddComputePodLogic,AddComputePodHealth
-from .events import app_service_registered
 
 def parse_post_json_request(request):
     assert isinstance(request, HttpRequest)

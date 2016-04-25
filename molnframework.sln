@@ -9,7 +9,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sample", "sample.pyproj", "
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_server", "molnframework_server.pyproj", "{CC27B9E3-E638-4C29-BC52-15D034CC197C}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_api", "molnframework_api.pyproj", "{74032FF8-C75A-4D9B-95CB-6CDB1BD6A5AE}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_api", "molnframework_api\molnframework_api.pyproj", "{5B747187-F613-45D2-8310-30CE48A528E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,8 +23,8 @@ Global
 		{0CDEF47F-9D9D-48BB-B239-E9C041FE1D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC27B9E3-E638-4C29-BC52-15D034CC197C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC27B9E3-E638-4C29-BC52-15D034CC197C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74032FF8-C75A-4D9B-95CB-6CDB1BD6A5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74032FF8-C75A-4D9B-95CB-6CDB1BD6A5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B747187-F613-45D2-8310-30CE48A528E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B747187-F613-45D2-8310-30CE48A528E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
