@@ -9,7 +9,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "sample", "sample.pyproj", "
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_server", "molnframework_server.pyproj", "{CC27B9E3-E638-4C29-BC52-15D034CC197C}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_manager", "molnframework_manager.pyproj", "{74032FF8-C75A-4D9B-95CB-6CDB1BD6A5AE}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "molnframework_api", "molnframework_api.pyproj", "{74032FF8-C75A-4D9B-95CB-6CDB1BD6A5AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

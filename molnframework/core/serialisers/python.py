@@ -31,6 +31,10 @@ def Deserializer(object_list, **options):
     class DummyObject(object):
         pass
 
+    if (isinstance(object_list,int) or 
+        isinstance(object_list,float) or 
+        isinstance(object_list,str)):
+        return object_list
 
     # create new object 
     dummy = DummyObject()

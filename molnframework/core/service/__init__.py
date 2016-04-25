@@ -14,12 +14,14 @@ from molnframework.utils.config import ServiceConfig
 from molnframework.utils import apps
 from molnframework.conf import settings
 from molnframework.core.service.parameter import ParameterType,ParameterInfo,ParameterMeta
-from molnframework.core.service.result import ExecutionResult
+from molnframework.core.service.result import (ExecutionResult,
+    ServiceExecutionResult,ServiceExecutionResultError,ServiceExecutionResultOK)
 from molnframework.core.exception import ImproperlyConfigured
 from molnframework_server.urls import urlpatterns
 from molnframework.core.service.base import ServiceBase
 from molnframework.core.service.metadata import ServiceMetadata
 from molnframework.core.manager.api import ManagerConnector,HealthReport
+from molnframework.core import serialisers
 
 
 class ServiceResolver404(Http404):
@@ -111,15 +113,20 @@ class ServiceDecorator(object):
         ParameterMeta.parse_values(service,meta,args)
 
         # execute
+
+        start = datetime.utcnow() 
+        resultWrapper = ServiceExecutionResult()
+
         try:
-            start = datetime.utcnow() 
             result = service.execute()
-            end = datetime.utcnow()
+            resultWrapper = ServiceExecutionResultOK(result=result)
+        except Exception as e:
+            resultWrapper =ServiceExecutionResultError (str(e))
+        end = datetime.utcnow()
+        resultWrapper.set_execution_time(start,end)
 
-            return ExecutionResult(result,start,end)
+        return resultWrapper
 
-        except:
-            raise ServiceExecuteException("Execute service contains errors!")
 
 class ServiceManager(object):
 
@@ -134,6 +141,7 @@ class ServiceManager(object):
         path = request.path_info
         match = resolver.regex.search(path)
 
+        resultStr = ""
         if match:
             new_path = path[match.end():]
 
@@ -147,6 +155,7 @@ class ServiceManager(object):
 
                     # execute the service
                     result = decorated_service.execute(request,service_values)
+                    resultStr = serialisers.serialise("json",result)
 
                     # TODO
                     # This can introduct a middle layer to process the 
@@ -154,9 +163,7 @@ class ServiceManager(object):
 
                     # serialize the service
 
-
-
-        return HttpResponse("Hello,world jdfffjdj")
+        return HttpResponse(resultStr)
 
     def _build_app(self):
 
@@ -218,10 +225,10 @@ class ServiceManager(object):
         # threading.Thread(target=self._inner_start,args=(address,port)).start()
 
         self.connector = ManagerConnector(settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
-        self.connector.register_pod()
-        for service in apps.get_service_configs():
-            self.connector.register_service(service)
-        self.health_reporter = HealthReport(settings.COMPUTE_POD_ID,settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
-        self.health_reporter.start()
+        #self.connector.register_pod()
+        #for service in apps.get_service_configs():
+        #    self.connector.register_service(service)
+        #self.health_reporter = HealthReport(settings.COMPUTE_POD_ID,settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
+        #self.health_reporter.start()
 
 manager = ServiceManager()

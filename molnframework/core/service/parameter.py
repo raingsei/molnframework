@@ -101,7 +101,16 @@ class ParameterMeta (object):
             if not hasattr(service,p_item.name):
                 raise ParameterMetaParsingException(
                     "Error parse value to %s" % p_item.name)
-            setattr(service,p_item.name,values[idx])
+            if p_item.type is ParameterType.Double:
+                pValue = float(values[idx])
+            elif p_item.type is ParameterType.Integer:
+                pValue = int(values[idx])
+            elif p_item.type is ParameterType.String:
+                pValue = values[idx]
+            else:
+                raise NotImplementedError()
+
+            setattr(service,p_item.name,pValue)
 
 
 class SweepParameter (object):

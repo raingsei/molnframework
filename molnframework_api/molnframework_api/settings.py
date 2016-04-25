@@ -52,7 +52,7 @@ MIDDLEWARE_CLASSES = [
     #'app.monitoring.middleware.MonitorServiceMiddleware'
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'molnframework_api.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = 'molnframework_api.wsgi.application'
 
 
 # Database
@@ -121,3 +121,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static/'
