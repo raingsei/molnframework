@@ -2,9 +2,9 @@ HOST='0.0.0.0'
 
 PORT='8000'
 
-MANAGER_ADDRESS = '127.0.0.1'
+MANAGER_ADDRESS = '10.0.10.31'
 
-MANAGER_PORT = '5678'
+MANAGER_PORT = '5000'
 
 DJANGO_SERVER_PATH = ''
 
@@ -15,5 +15,5 @@ APP_NAME = 'sample'
 HEALTH_PATH = 'health/report/'
 
 INSTALLED_SERVICES = (
-    'sample.rhino.func2.TestFunctionService',
+    'airfoil.Airfoil',
 )
