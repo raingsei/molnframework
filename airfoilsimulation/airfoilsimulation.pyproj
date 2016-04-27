@@ -46,6 +46,8 @@
   <ItemGroup>
     <Content Include="bin\airfoil" />
     <Content Include="bin\gmsh\gmsh" />
+    <Content Include="outputs\geo\TextFile1.txt" />
+    <Content Include="outputs\msh\TextFile1.txt" />
     <Content Include="scripts\run.sh" />
   </ItemGroup>
   <PropertyGroup>
