@@ -6,9 +6,9 @@ from molnframework.core.service.base import ServiceBase
 def calc_ratio():
     numOfRatios = 0
     totRatio = 0.0
-    for filename in os.listdir('/home/ubuntu/project/results/'):
+    for filename in os.listdir('results/'):
         if filename.endswith(".m"):
-            name = "sudo chmod ugo+wrx " + filename
+            name = "sudo chmod ugo+wrx " + 'results/'+filename
             subprocess.call(name, shell=True)
             with open('results/' + filename, "r") as f:
                 lines = f.readlines()[1:]
@@ -24,17 +24,19 @@ def calc_ratio():
 
 def gen_msh(angle, nodes, ref):
     name = "scripts/./run.sh " + str(angle) + " " + str(angle) + " 1 " + str(nodes) + " " + str(ref)
+    print (name)
     subprocess.call(name, shell=True)
 
 def convert():
     for filename in os.listdir('outputs/msh'):
         if filename.endswith(".msh"):
-            name = "sudo chmod ugo+wrx " + filename
+            print (filename)
+            name = "sudo chmod ugo+wrx " + "outputs/msh/"+filename
             subprocess.call(name, shell=True)
             name = "sudo dolfin-convert " + "outputs/msh/" + filename + " outputs/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
 
-class Airfoil(ServiceBase):
+class Airfoil(object):
 
     angle = 0
     nodes = 0
@@ -59,10 +61,11 @@ class Airfoil(ServiceBase):
         convert()
 
         for filename in os.listdir('outputs/msh'):
-            if "r" + str(ref) in filename and filename.endswith(".xml"):
-                name = "sudo chmod ugo+wrx " + filename
+            if "r" + str(self.refinement) in filename and filename.endswith(".xml"):
+                name = "sudo chmod ugo+wrx " + "outputs/msh/"+filename
                 subprocess.call(name, shell=True)
                 name = 'bin/./airfoil ' + str(self.samples) + ' ' + str(self.viscosity) + ' ' + str(self.speed) + ' ' + str(self.time) + ' outputs/msh/' + filename
+                #print (name)
                 subprocess.call(name, shell=True)
 
         return calc_ratio()
