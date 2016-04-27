@@ -50,7 +50,7 @@ class ServiceLabelResolver(object):
 
 class ServiceDecorator(object):
     regexp_lookup = {
-        ParameterType.Integer:'(-?\d+$)',
+        ParameterType.Integer:'(-?\d+)',
         ParameterType.Double:'(-?\d*\.{0,1}\d+)',
         ParameterType.String:'(\w)',
         }
@@ -224,11 +224,11 @@ class ServiceManager(object):
         # Should this method executed in background thread manner?
         # threading.Thread(target=self._inner_start,args=(address,port)).start()
 
-        self.connector = ManagerConnector(settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
-        self.connector.register_pod()
-        for service in apps.get_service_configs():
-            self.connector.register_service(service)
-        self.health_reporter = HealthReport(settings.COMPUTE_POD_ID,settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
-        self.health_reporter.start()
+        #self.connector = ManagerConnector(settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
+        #self.connector.register_pod()
+        #for service in apps.get_service_configs():
+        #    self.connector.register_service(service)
+        #self.health_reporter = HealthReport(settings.COMPUTE_POD_ID,settings.MANAGER_ADDRESS,settings.MANAGER_PORT)
+        #self.health_reporter.start()
 
 manager = ServiceManager()
