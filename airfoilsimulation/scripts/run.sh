@@ -18,11 +18,11 @@
 # EDIT FOLLOWING VARIABLES
 # Path to GMSH binary
 
-GMSHBIN="$(pwd)/bin/gmsh/gmsh"
+GMSHBIN="/molnframework/airfoilsimulation/bin/gmsh/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="$(pwd)/outputs/geo"
+GEODIR="/molnframework/airfoilsimulation/outputs/geo"
 # Path to dir where msh files will be stored
-MSHDIR="$(pwd)/outputs/msh"
+MSHDIR="/molnframework/airfoilsimulation/outputs/msh"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
@@ -40,7 +40,7 @@ for i in `seq 0 $n_angles`;
 do
   angle=$(($angle_start + $anglediff*i))
   geofile=a${angle}n${n_nodes}.geo
-  python $(pwd)/scripts/naca2gmsh_geo.py $NACA1 $NACA2 $NACA3 $NACA4 $angle $n_nodes > $GEODIR/$geofile
+  /usr/bin/python /molnframework/airfoilsimulation/scripts/naca2gmsh_geo.py $NACA1 $NACA2 $NACA3 $NACA4 $angle $n_nodes > $GEODIR/$geofile
 done
 for i in `ls $GEODIR`; do
   mshfile="$(echo $i|sed -e 's/geo/msh/')";
