@@ -25,6 +25,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="molnframework\api\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\api\pool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\api\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\conf\global_settings.py">
       <SubType>Code</SubType>
     </Compile>
@@ -136,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="molnframework\" />
+    <Folder Include="molnframework\api\" />
     <Folder Include="molnframework\conf\" />
     <Folder Include="molnframework\core\" />
     <Folder Include="molnframework\core\management\" />

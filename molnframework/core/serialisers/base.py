@@ -1,5 +1,5 @@
-import six
 import sys
+from molnframework.utils import six
 
 """
 Exceptions

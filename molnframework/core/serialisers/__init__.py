@@ -1,9 +1,8 @@
-import six
 import sys
 import importlib
 
 from molnframework.core.serialisers.base import SerialiserDoesNotExist
-
+from molnframework.utils import six
 
 BUILTIN_SERIALISERS = {
     "json": "molnframework.core.serialisers.json",

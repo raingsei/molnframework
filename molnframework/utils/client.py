@@ -8,9 +8,9 @@ class RequestBuilder(http.client.HTTPConnection):
     def __init__(self,host,port):
         super(RequestBuilder,self).__init__(host, port)
 
-    def get (self,path,data=''):
+    def get (self,path,data='',content_type='application/x-www-form-urlencoded'):
         data = {} if data is None else data
-        return self.generic('GET',data)
+        return self.generic('GET',path,data,content_type)
 
     def post (self,path,data=None,content_type='application/x-www-form-urlencoded'):
         data = {} if data is None else data
@@ -89,6 +89,9 @@ class JSONReponse(RequestResponse):
         if self.status != 200:
             return None
         return self._dict[key]
+    
+    def keys(self):
+        return self._dict.keys()
 
 class Client(RequestBuilder):
 

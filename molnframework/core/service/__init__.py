@@ -1,5 +1,4 @@
 import re
-import six
 import socket
 import threading
 import time
@@ -11,6 +10,7 @@ from django.http import HttpRequest,HttpResponse
 from django.http import Http404
 
 from molnframework.utils.config import ServiceConfig
+from molnframework.utils import six
 from molnframework.utils import apps
 from molnframework.conf import settings
 from molnframework.core.service.parameter import ParameterType,ParameterInfo,ParameterMeta
@@ -163,7 +163,7 @@ class ServiceManager(object):
 
                     # serialize the service
 
-        return HttpResponse(resultStr)
+        return HttpResponse(resultStr,content_type="application/json")
 
     def _build_app(self):
 

@@ -77,6 +77,7 @@ class AddComputeServiceLogic(LogicBase):
         pod_address = instance['pod_address'] 
         service_name = instance['service_name']
         service_url = instance['service_url']
+        service_meta = instance['service_parameters']
 
         # get compute app 
         try:
@@ -100,7 +101,7 @@ class AddComputeServiceLogic(LogicBase):
                 name = service_name,
                 url = service_url,
                 registered_date= datetime.datetime.utcnow(),
-                meta_info= "")
+                meta_info= service_meta)
             data['service_id'] = new_service.id
         except Exception as e:
             return self.create_logic_fail(str(e),None)

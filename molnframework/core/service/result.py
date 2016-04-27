@@ -7,6 +7,16 @@ class ExecutionResult(object):
         self.end = end
         self.total = end - start
         self.result = result
+    
+    @classmethod
+    def create(cls,data):
+        assert isinstance(data,dict)
+
+        start = datetime.strptime(data['start'],"%Y-%m-%d %H:%M:%S.%f")
+        end = datetime.strptime(data['end'],"%Y-%m-%d %H:%M:%S.%f")
+
+        return cls(data['result'],start,end)
+
 
 class ServiceExecutionResult(object):
     def __init__(self,status="Unknown",message="",result=None):

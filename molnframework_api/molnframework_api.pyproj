@@ -13,6 +13,8 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
     <InterpreterVersion />
+    <CommandLineArguments>runserver 127.0.0.1:5678 --noreload --nothreading</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -24,6 +26,9 @@
     <Compile Include="app\admin.py" />
     <Compile Include="app\apps.py" />
     <Compile Include="app\logic\addlogics.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\logic\getlogics.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\logic\__init__.py">

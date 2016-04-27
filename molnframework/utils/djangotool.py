@@ -60,4 +60,4 @@ class DjangoServerUtility (object):
         # start server 
         django_execute(self.django_argv)
 
-server = DjangoServerUtility(runserver_argv="--noreload --nothreading")
+server = DjangoServerUtility(runserver_argv="%s:%s --noreload --nothreading" % (settings.HOST,settings.PORT))

@@ -42,10 +42,13 @@ class ServiceMetadata(object):
         self._builder = dict()
 
         # parameter meta
-        praw = []
+        praw = list()
         pmeta = ParameterMeta.get_meta(self._service)
         for parameter in pmeta:
-            praw.append({'name':parameter.name, 'type':str(parameter.type)})
+            p = dict()
+            p['name'] = parameter.name
+            p['type'] = str(parameter.type)
+            praw.append(p)
 
         if settings.PORT is None:
             full_address = settings.HOST
@@ -60,7 +63,7 @@ class ServiceMetadata(object):
         self._builder['service_verbose_name'] = service.address
         self._builder['service_url'] = "http://%s/%s/" % (full_address,service.address)
         self._builder['service_parameter_count'] = pmeta.count()
-        self._builder['service_parameters'] = praw
+        self._builder['service_parameters'] = json.dumps(praw)
 
     def get(self):
         """ 
