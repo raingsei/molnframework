@@ -6,11 +6,11 @@ from molnframework.core.service.base import ServiceBase
 def calc_ratio():
     numOfRatios = 0
     totRatio = 0.0
-    for filename in os.listdir('results/'):
+    for filename in os.listdir('/molnframework/airfoilsimulation/results/'):
         if filename.endswith(".m"):
-            name = "sudo chmod ugo+wrx " + 'results/'+filename
+            name = "sudo chmod ugo+wrx " + '/molnframework/airfoilsimulation/results/'+filename
             subprocess.call(name, shell=True)
-            with open('results/' + filename, "r") as f:
+            with open('/molnframework/airfoilsimulation/results/' + filename, "r") as f:
                 lines = f.readlines()[1:]
                 for results in lines:
                     words = results.split()
@@ -23,23 +23,23 @@ def calc_ratio():
     return totRatio/numOfRatios
 
 def gen_msh(angle, nodes, ref):
-    name = "scripts/./run.sh " + str(angle) + " " + str(angle) + " 1 " + str(nodes) + " " + str(ref)
+    name = "/molnframework/airfoilsimulation/scripts/./run.sh " + str(angle) + " " + str(angle) + " 1 " + str(nodes) + " " + str(ref)
     print (name)
     subprocess.call(name, shell=True)
 
 def convert():
-    for filename in os.listdir('outputs/msh'):
+    for filename in os.listdir('/molnframework/airfoilsimulation/outputs/msh'):
         if filename.endswith(".msh"):
             print (filename)
-            name = "sudo chmod ugo+wrx " + "outputs/msh/"+filename
+            name = "sudo chmod ugo+wrx " + "/molnframework/airfoilsimulation/outputs/msh/"+filename
             subprocess.call(name, shell=True)
-            name = "sudo dolfin-convert " + "outputs/msh/" + filename + " outputs/msh/" + filename + ".xml"
+            name = "sudo dolfin-convert " + "/molnframework/airfoilsimulation/outputs/msh/" + filename + " /molnframework/airfoilsimulation/outputs/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
 
 def cleanup():
-    subprocess.call("rm outputs/geo/*.*" , shell=True)
-    subprocess.call("rm outputs/msh/*.*" , shell=True)
-    subprocess.call("rm results/*.*" , shell=True)
+    subprocess.call("rm /molnframework/airfoilsimulation/outputs/geo/*.*" , shell=True)
+    subprocess.call("rm /molnframework/airfoilsimulation/outputs/msh/*.*" , shell=True)
+    subprocess.call("rm /molnframework/airfoilsimulation/results/*.*" , shell=True)
 
 class Airfoil(ServiceBase):
 
@@ -67,11 +67,11 @@ class Airfoil(ServiceBase):
         # convert mesh to xml
         convert()
 
-        for filename in os.listdir('outputs/msh'):
+        for filename in os.listdir('/molnframework/airfoilsimulation/outputs/msh'):
             if "r" + str(self.refinement) in filename and filename.endswith(".xml"):
-                name = "sudo chmod ugo+wrx " + "outputs/msh/"+filename
+                name = "sudo chmod ugo+wrx " + "/molnframework/airfoilsimulation/outputs/msh/"+filename
                 subprocess.call(name, shell=True)
-                name = 'bin/./airfoil ' + str(self.samples) + ' ' + str(self.viscosity) + ' ' + str(self.speed) + ' ' + str(self.time) + ' outputs/msh/' + filename
+                name = '/molnframework/airfoilsimulation/bin/./airfoil ' + str(self.samples) + ' ' + str(self.viscosity) + ' ' + str(self.speed) + ' ' + str(self.time) + ' /molnframework/airfoilsimulation/outputs/msh/' + filename
                 #print (name)
                 subprocess.call(name, shell=True)
 
