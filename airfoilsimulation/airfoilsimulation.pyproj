@@ -38,9 +38,9 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="bin\gmsh\" />
+    <Folder Include="outputs\" />
     <Folder Include="outputs\geo\" />
     <Folder Include="outputs\msh\" />
-    <Folder Include="outputs\" />
     <Folder Include="scripts\" />
   </ItemGroup>
   <ItemGroup>
