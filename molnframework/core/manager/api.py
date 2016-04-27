@@ -73,7 +73,11 @@ class ManagerConnector(object):
         if self._registered_pod:
             return
 
-        meta = PodMetaData(settings.HOST,settings.PORT).get()
+        settings.BINDED_HOST = settings.HOST
+        if settings.HOST == "0.0.0.0":
+            settings.BINDED_HOST = socket.gethostbyname(socket.gethostname())
+
+        meta = PodMetaData(settings.BINDED_HOST,settings.PORT).get()
 
         retry_count = 0
         message = ""

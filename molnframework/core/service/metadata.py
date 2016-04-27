@@ -51,9 +51,9 @@ class ServiceMetadata(object):
             praw.append(p)
 
         if settings.PORT is None:
-            full_address = settings.HOST
+            full_address = settings.BINDED_HOST
         else:
-            full_address = "%s:%s" % (settings.HOST,settings.PORT)
+            full_address = "%s:%s" % (settings.BINDED_HOST,settings.PORT)
 
         # build information
         self._builder['app_name'] = settings.APP_NAME
