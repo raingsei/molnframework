@@ -41,7 +41,7 @@ def cleanup():
     subprocess.call("rm outputs/msh/*.*" , shell=True)
     subprocess.call("rm results/*.*" , shell=True)
 
-class Airfoil(object):
+class Airfoil(ServiceBase):
 
     angle = 0
     nodes = 0
