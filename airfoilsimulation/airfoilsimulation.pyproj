@@ -38,6 +38,7 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="bin\gmsh\" />
+    <Folder Include="results\" />
     <Folder Include="outputs\" />
     <Folder Include="outputs\geo\" />
     <Folder Include="outputs\msh\" />
@@ -48,6 +49,7 @@
     <Content Include="bin\gmsh\gmsh" />
     <Content Include="outputs\geo\TextFile1.txt" />
     <Content Include="outputs\msh\TextFile1.txt" />
+    <Content Include="results\TextFile1.txt" />
     <Content Include="scripts\run.sh" />
   </ItemGroup>
   <PropertyGroup>

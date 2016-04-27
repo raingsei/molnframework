@@ -36,6 +36,11 @@ def convert():
             name = "sudo dolfin-convert " + "outputs/msh/" + filename + " outputs/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
 
+def cleanup():
+    subprocess.call("rm outputs/geo/*.*" , shell=True)
+    subprocess.call("rm outputs/msh/*.*" , shell=True)
+    subprocess.call("rm results/*.*" , shell=True)
+
 class Airfoil(object):
 
     angle = 0
@@ -53,6 +58,8 @@ class Airfoil(object):
     address='air_foil'
 
     def execute(self):
+        # clean up
+        cleanup()
 
         # generate mesh
         gen_msh(self.angle,self.nodes,self.refinement)
