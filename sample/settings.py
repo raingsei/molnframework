@@ -14,7 +14,7 @@ APP_NAME = 'sample'
 
 HEALTH_PATH = 'health/report/'
 
-IGNORE_API = False
+IGNORE_API = True
 
 INSTALLED_SERVICES = (
     'sample.rhino.func2.TestFunctionService',

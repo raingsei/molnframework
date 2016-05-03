@@ -5,16 +5,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>47aa7838-9648-4f54-8e41-ba56348bbb50</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <StartupFile>molnframework\bin\moln-tool.py</StartupFile>
+    <SearchPath>.</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>molnframework</Name>
     <RootNamespace>molnframework</RootNamespace>
-    <InterpreterId>{78f25b16-16db-4776-a990-ab25493425b2}</InterpreterId>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>buildapp</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,10 +35,16 @@
     <Compile Include="molnframework\api\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\bin\moln-tool.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\conf\global_settings.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\conf\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\checks\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\management\color.py">
@@ -49,7 +56,13 @@
     <Compile Include="molnframework\core\management\base.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="molnframework\core\management\command\__init__.py">
+    <Compile Include="molnframework\core\management\commands\buildapp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\management\commands\runserver.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\core\management\commands\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\management\__init__.py">
@@ -118,6 +131,9 @@
     <Compile Include="molnframework\utils\djangotool.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="molnframework\utils\encoding.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="molnframework\utils\functional.py">
       <SubType>Code</SubType>
     </Compile>
@@ -131,6 +147,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\utils\termcolors.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="molnframework\utils\_os.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\utils\__init__.py">
@@ -148,16 +167,19 @@
     <Folder Include="molnframework\api\" />
     <Folder Include="molnframework\conf\" />
     <Folder Include="molnframework\core\" />
+    <Folder Include="molnframework\core\checks\" />
     <Folder Include="molnframework\core\management\" />
-    <Folder Include="molnframework\core\management\command\" />
+    <Folder Include="molnframework\core\management\commands\" />
     <Folder Include="molnframework\core\manager\" />
     <Folder Include="molnframework\core\serialisers\" />
     <Folder Include="molnframework\core\service\" />
     <Folder Include="molnframework\meta\" />
+    <Folder Include="molnframework\bin\" />
     <Folder Include="molnframework\utils\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{78f25b16-16db-4776-a990-ab25493425b2}\3.5" />
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.5" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />

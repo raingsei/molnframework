@@ -4,3 +4,5 @@
 class ServiceRegistryNotReady(Exception):
     pass
 
+class SuspiciousOperation(Exception):
+    pass
