@@ -6,8 +6,8 @@
     <ProjectGuid>0cdef47f-9d9d-48bb-b239-e9c041fe1d01</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>manage.py</StartupFile>
-    <SearchPath>..\molnframework\molnframework\</SearchPath>
+    <StartupFile>sample\manage.py</StartupFile>
+    <SearchPath>.</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>sample</Name>
@@ -15,7 +15,7 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <CommandLineArguments>runserver</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <InterpreterId>{78f25b16-16db-4776-a990-ab25493425b2}</InterpreterId>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -27,13 +27,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="sample\manage.py" />
     <Compile Include="sample\rhino\func2.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sample\rhino\func1.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="manage.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sample\rhino\__init__.py">
@@ -54,7 +52,7 @@
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.5" />
   </ItemGroup>-->
   <ItemGroup>
-    <InterpreterReference Include="{78f25b16-16db-4776-a990-ab25493425b2}\3.5" />
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.5" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
