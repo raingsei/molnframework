@@ -17,8 +17,4 @@ from django.conf.urls import url
 from django.contrib import admin
 from molnframework_server import api
 
-#urlpatterns = []
-
-urlpatterns = [
-    url(r'^gethealth/', api.get_status),
-]
+urlpatterns = []
