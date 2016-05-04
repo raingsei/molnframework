@@ -90,11 +90,7 @@ class AppCommandUtility(object):
             app_name = commands[subcommand]
         except KeyError:
             if os.environ.get('MOLNFRAMEWORK_SETTINGS_MODULE'):
-                # If `subcommand` is missing due to misconfigured settings, the
-                # following line will retrigger an ImproperlyConfigured exception
-                # (get_commands() swallows the original one) so the user is
-                # informed about it.
-                settings.INSTALLED_APPS
+                settings.INSTALLED_SERVICES
             else:
                 sys.stderr.write("No Molnframework settings specified.\n")
             sys.stderr.write("Unknown command: %r\nType '%s help' for usage.\n" %
