@@ -58,8 +58,7 @@ class ServiceConfig (object):
         try:
             module = import_module(entry)
         except ImportError:
-            model = None
-
+            module = None
             mod_path, _,cls_name = entry.rpartition('.')
 
             if not mod_path:

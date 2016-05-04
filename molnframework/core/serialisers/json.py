@@ -1,4 +1,3 @@
-import six
 import json
 import sys
 import datetime
@@ -8,6 +7,7 @@ import uuid
 from molnframework.core.serialisers.base import DeserialisationError
 from molnframework.core.serialisers.python import (
     Serialiser as BaseSerialiser, Deserializer as BaseDerialiser)
+from molnframework.utils import six
 
 class DateTimeAwareJSONEncoder(json.JSONEncoder):
 
