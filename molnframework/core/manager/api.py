@@ -2,7 +2,8 @@ import time
 import threading
 import json
 import socket
-from molnframework.utils.client import Client
+from molnframework.utils.client import Client, CookieAwareClient
+from molnframework.api import APIClient
 from molnframework.utils.system import SystemInfo
 from molnframework.core.service.metadata import ServiceMetadata,PodMetaData
 from molnframework.conf import settings
@@ -61,13 +62,20 @@ class ManagerConnector(object):
     def __init__(self,address,port):
         self.address = address
         self.port = port
-        self._conn = Client(address,port)
+        #self._conn = Client(address,port)
+        #self._client = CookieAwareClient(address,port)
         self._registered_pod = False
 
         if port is None:
             self.full_address = self.address
         else:
             self.full_address = "%s:%s" % (self.address,self.port)
+
+        try:
+            cl = APIClient(address,port,settings.MF_USERNAME,settings.MF_PASSWORD)
+            self._conn = cl.connect()
+        except Exception as e:
+            raise e
 
     def register_pod(self):
         
@@ -83,7 +91,8 @@ class ManagerConnector(object):
         retry_count = 0
         message = ""
         while not self._registered_pod and retry_count < settings.MAX_RETRY:
-            result = self._conn.post("/register_pod/",meta,content_type='application/json')
+            #result = self._conn.post("/register_pod/",meta,content_type='application/json')
+            result = self._conn.client.request("register_pod/","POST",meta,content_type='application/json')
             
             # TODO
             # Use standard status enumeration not the string
@@ -109,7 +118,8 @@ class ManagerConnector(object):
         retry_count = 0
         message = ""
         while retry_count < settings.MAX_RETRY:
-            result = self._conn.post("/register_service/",meta,content_type='application/json')
+            #result = self._conn.post("/register_service/",meta,content_type='application/json')
+            result = self._conn.client.request("register_service/","POST",meta,content_type='application/json')
             
             # TODO
             # Use standard status enumeration not the string

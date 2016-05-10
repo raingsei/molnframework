@@ -1,0 +1,35 @@
+kind: List
+apiVersion: v1
+items:
+- kind: ReplicationController
+  apiVersion: v1
+  metadata:
+    labels:
+      app: $full_app_name
+    name: $full_app_name
+  spec:
+    replicas: $number_of_pods
+    selector:
+      app: $full_app_name
+    template:
+      metadata:
+        labels:
+          app: $full_app_name
+      spec:
+        containers:
+          - image: $docker_image_name
+            ports:
+            - containerPort: $app_port
+- kind: Service
+  apiVersion: v1
+  metadata:
+    labels:
+      app: $full_app_name
+    name: $full_app_name
+  spec:
+    ports:
+    - port: $app_port
+      targetPort: $app_port
+    selector:
+      app: $full_app_name
+    externalIPs: ["$external_IP"]

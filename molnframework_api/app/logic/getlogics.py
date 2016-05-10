@@ -1,6 +1,7 @@
 
 from . import LogicBase
 from ..models import ComputeService,ComputePod,ComputeApp
+from django.contrib.auth.models import User
 
 class GetAppResourcesLogic(LogicBase):
 
@@ -44,3 +45,34 @@ class GetAppResourcesLogic(LogicBase):
 
         return self.create_logic_success("get app resource",app_dict)
 
+class GetDockerImageLogic(LogicBase):
+
+    def execute(self, instance):
+        assert isinstance(instance,dict)
+
+        user_id = instance['user_id']
+        docker_image_id = instance['docker_image_id']
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
+        try:
+            docker_image = user.dockerimage_set.get(pk=docker_image_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("docker image with id [%s] does not exist" % docker_image_id,None)
+
+        outdata = dict()
+        outdata['user'] = user.username
+        outdata['name'] = docker_image.name
+        outdata['content'] = docker_image.content
+        outdata['version'] = docker_image.version
+        outdata['date'] = str(docker_image.date)
+        outdata['build_status'] = docker_image.build_status
+        outdata['build_output'] = docker_image.build_output
+        outdata['build_date'] = str(docker_image.build_date)
+        outdata['push_status'] = docker_image.push_status
+        outdata['push_date'] = str(docker_image.push_date)
+
+        return self.create_logic_success("get docker image",outdata)

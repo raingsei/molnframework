@@ -1,7 +1,10 @@
-import http.client
-import urllib.parse
 import enum
 import json
+import urllib
+import urllib.parse
+import http.client
+from http.client import HTTPResponse
+from http.cookiejar import CookieJar
 
 class RequestBuilder(http.client.HTTPConnection):
 
@@ -112,4 +115,62 @@ class Client(RequestBuilder):
         """
         response = super(Client,self).post(url,data,content_type)
         
+        return RequestResponse.create(response)
+
+class CookieAwareClient(object):
+    def __init__(self,host,port = None):
+        self.host = host
+        self.port = port
+        self.cookie_jar = CookieJar()
+
+        # prepare opener
+        self._opener = urllib.request.build_opener(
+            urllib.request.HTTPHandler(),
+            urllib.request.HTTPErrorProcessor(),
+            urllib.request.HTTPCookieProcessor(self.cookie_jar))
+        #urllib.request.install_opener(self._opener)    
+
+    def _build_request (self,path,method,data,content_type='application/x-www-form-urlencoded'):
+
+        if self.port == None:
+            full_url = "http://%s/%s" % (self.host,path)
+        else:
+            full_url = "http://%s:%s/%s" % (self.host,self.port,path)
+
+        headers = {
+            "Content-type": content_type,
+            "Accept": "text/plain",
+        }
+
+        if content_type == 'application/x-www-form-urlencoded':
+            parsed_data = None
+            if not isinstance(data, str) and data is not None:
+                parsed_data = bytes(urllib.parse.urlencode(data).encode('utf-8'))
+            else:
+                parsed_data = data
+
+            req = urllib.request.Request(full_url,parsed_data,headers,method=method)
+        elif content_type == 'application/json':
+            req = urllib.request.Request(full_url,headers=headers)
+            req.data = bytes(json.dumps(data).encode('utf-8'))
+        else:
+            raise not NotImplementedError()
+
+        return req
+
+    def request_streaming(self,path,method,data=None,content_type='application/x-www-form-urlencoded'):
+        #build the request
+        req = self._build_request(path,method,data,content_type)
+
+        with self._opener.open(req) as f:
+            while True:
+                buffer = f.readline()
+                yield buffer.decode('utf-8')
+                if not buffer:
+                    break
+
+    def request(self,path,method,data=None,content_type='application/x-www-form-urlencoded'):
+        req = self._build_request(path,method,data,content_type)
+        response = self._opener.open(req)
+
         return RequestResponse.create(response)

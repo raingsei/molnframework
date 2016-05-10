@@ -1,9 +1,42 @@
 import datetime
 
 from . import LogicBase
-from ..models import ComputeService,ComputePod,ComputeApp
+from ..models import ComputeService,ComputePod,ComputeApp,DockerImage
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
+
+class AddComputeAppLogic(LogicBase):
+
+    def execute(self, instance):
+        assert isinstance(instance,dict)
+        
+        user_id = instance['user_id']
+        app_name = instance['app_name']
+        app_author = instance['app_author']
+        app_number_pods = instance['app_number_pods']
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
+        exist_app = user.computeapp_set.filter(name=app_name)
+        if len (exist_app) != 0:
+            return self.create_logic_fail("Application name is already existed!",None)
+
+        data = dict()
+        try:
+            new_app = user.computeapp_set.create(
+                name = app_name,
+                author = app_author,
+                number_pods = app_number_pods,
+                registered_date = datetime.datetime.utcnow())
+            data['app_id'] = new_app.id
+            data['app_port'] = new_app.port
+        except Exception as e:
+            return self.create_logic_fail(str(e),None)
+        return self.create_logic_success("new app is created",data)
 
 class AddComputePodHealth(LogicBase):
 
@@ -38,14 +71,22 @@ class AddComputePodLogic(LogicBase):
         assert isinstance(instance,dict)
 
         # extract data from instance
+        user_id = instance['user_id']
         app_name = instance['app_name']
         pod_name = instance['pod_name']
         pod_address = instance['pod_address']
         pod_info = instance['pod_info']
 
+
+        # get user 
+        try:
+            user = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
         # get compute app 
         try:
-            app = ComputeApp.objects.get(name=app_name)
+            app = user.computeapp_set.get(name=app_name)
         except ObjectDoesNotExist:
             return self.create_logic_fail("App - %s is not registered" % app_name,None)
 
@@ -72,6 +113,7 @@ class AddComputeServiceLogic(LogicBase):
     def execute(self, instance):
         assert isinstance(instance,dict)
 
+        user_id = instance['user_id']
         app_name = instance['app_name']
         pod_name = instance['pod_name']
         pod_address = instance['pod_address'] 
@@ -79,9 +121,15 @@ class AddComputeServiceLogic(LogicBase):
         service_url = instance['service_url']
         service_meta = instance['service_parameters']
 
+        # get user 
+        try:
+            user = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
         # get compute app 
         try:
-            app = ComputeApp.objects.get(name=app_name)
+            app = user.computeapp_set.get(name=app_name)
         except ObjectDoesNotExist:
             return self.create_logic_fail("App - %s is not registered" % app_name,None)
         
@@ -107,6 +155,40 @@ class AddComputeServiceLogic(LogicBase):
             return self.create_logic_fail(str(e),None)
 
         return self.create_logic_success("new service is added",data)
+
+class AddDockerImageLogic(LogicBase):
+    def execute(self, instance):
+        assert isinstance(instance,dict)
+
+        user_id = instance['user_id']
+        name = instance['name']
+        content = instance['content']
+        version = instance['version']
+
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
+        # get docker image
+        exist_docker_image = user.dockerimage_set.filter(name=name,version=version)
+        if len(exist_docker_image) != 0:
+            return self.create_logic_fail("Docker image with the name and version is already existed!",None)
+
+        data = dict()
+        try:
+            new_docker_image = user.dockerimage_set.create(
+                name = name,
+                content = content,
+                version = version,
+                date = datetime.datetime.utcnow())
+            data['docker_image_id'] = new_docker_image.id
+        except Exception as e:
+            return self.create_logic_fail(str(e),None)
+        return self.create_logic_success("new docker image content is added",data)
+
+
 
 
 

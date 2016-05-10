@@ -120,3 +120,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Molnframework API
+DOCKER_CLIENT = "http://130.238.29.188:2375"
+DOCKER_REGISTRY = "10.0.10.234:5000"
+START_APP_PORT= 6000
+END_APP_PORT = 9000
+EXTERNAL_IP = "10.0.10.66"
+

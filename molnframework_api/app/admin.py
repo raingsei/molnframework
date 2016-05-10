@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ComputeApp,ComputeService,ComputePod,ComputePodHealth
+from .models import ComputeApp,ComputeService,ComputePod,ComputePodHealth,DockerImage
 
 class ComputePodHealthInline(admin.TabularInline):
     model = ComputePodHealth
@@ -26,7 +26,7 @@ class ComputePodInline (admin.TabularInline):
         return False
 
 class ComputeAppAdmin(admin.ModelAdmin):
-    list_display = ('name','author')
+    list_display = ('id','user','name','author','number_pods','port','kube_app','kube_status')
     #readonly_fields = ('name','author','registered_date','number_pods')
     inlines = [ComputePodInline]
 
@@ -35,5 +35,10 @@ class ComputePodAdmin(admin.ModelAdmin):
     readonly_fields = ('name','address','registered_date')
     inlines = [ComputeServiceInline,ComputePodHealthInline]
 
+class DockerImageAdmin(admin.ModelAdmin):
+    list_display = ('user','name','content','version',"build_status",
+                    "build_output","build_date","push_status","push_date")
+
 admin.site.register(ComputeApp,ComputeAppAdmin)
 admin.site.register(ComputePod,ComputePodAdmin)
+admin.site.register(DockerImage,DockerImageAdmin)

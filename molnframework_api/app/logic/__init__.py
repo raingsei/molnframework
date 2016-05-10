@@ -26,6 +26,22 @@ class LogicReturn(object):
         self.set_code(code)
         self.set_data(data)
 
+    @property
+    def status(self):
+        return self._status
+
+    @property
+    def data(self):
+        return self._data
+
+    @property
+    def code(self):
+        return self._code
+
+    @property
+    def message(self):
+        return self._message
+
     def set_status(self,status):
         self._status = status
 
@@ -39,6 +55,10 @@ class LogicReturn(object):
     def set_data(self,data):
         self._data = data
 
+    @classmethod
+    def from_JSON(cls,json_data):
+        data = json.loads(json_data)
+        return cls(data['status'],data['message'],data['code'],data['data'])
 
     def to_JSON(self):
         data = dict()

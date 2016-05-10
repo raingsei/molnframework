@@ -31,11 +31,16 @@
     <Compile Include="app\logic\getlogics.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\logic\mixedlogics.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\logic\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="app\migrations\__init__.py" />
     <Compile Include="app\models.py" />
+    <Compile Include="app\template\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
@@ -48,8 +53,13 @@
   <ItemGroup>
     <Folder Include="app" />
     <Folder Include="app\logic\" />
-    <Folder Include="app\migrations" />
+    <Folder Include="app\template\" />
     <Folder Include="molnframework_api" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\template\kube_app_template.txt">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
