@@ -20,7 +20,7 @@ from molnframework.core.exception import ImproperlyConfigured
 from molnframework_server.urls import urlpatterns
 from molnframework.core.service.base import ServiceBase
 from molnframework.core.service.metadata import ServiceMetadata
-from molnframework.core.manager.api import ManagerConnector,HealthReport
+from molnframework.core.manager.connector import ManagerConnector,HealthReport
 from molnframework.core import serialisers
 
 

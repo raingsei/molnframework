@@ -262,6 +262,9 @@ class CreateComputeAppLogic(LogicBase):
             new_app.kube_status = "OK"
             new_app.save()
 
+            # store kube app
+            data['kube_app'] = kub_app
+
         except Exception as e:
 
             # delete the app record

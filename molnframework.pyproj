@@ -68,7 +68,7 @@
     <Compile Include="molnframework\core\management\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="molnframework\core\manager\api.py">
+    <Compile Include="molnframework\core\manager\connector.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="molnframework\core\manager\__init__.py">

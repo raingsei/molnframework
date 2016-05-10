@@ -267,7 +267,12 @@ def begin_build_docker_image(request):
 
     indata = json.loads(str_json)
     indata['user_id'] = request.user.id
-    indata['docker_registry'] = settings.DOCKER_REGISTRY
+
+    if settings.DOCKER_SINGLE_HOST == True:
+        indata['docker_registry'] = "127.0.0.1:5000"
+    else:
+        indata['docker_registry'] = settings.DOCKER_REGISTRY
+
     indata['docker_client'] = settings.DOCKER_CLIENT
 
     # run logic
@@ -304,7 +309,10 @@ def build_docker_image(request):
         cl = Client(settings.DOCKER_CLIENT)
         f = BytesIO(docker_image['content'].encode('utf-8'))
 
-        image_tag = "%s/%s/%s:%s" % (settings.DOCKER_REGISTRY,docker_image['user'],docker_image['name'],docker_image['version'])
+        if settings.DOCKER_SINGLE_HOST == True:
+            image_tag = "%s/%s/%s:%s" % ("127.0.0.1:5000",docker_image['user'],docker_image['name'],docker_image['version'])
+        else:
+            image_tag = "%s/%s/%s:%s" % (settings.DOCKER_REGISTRY,docker_image['user'],docker_image['name'],docker_image['version'])
 
         return StreamingHttpResponse(output for output in cl.build(fileobj=f, rm=True, tag=image_tag))
 
@@ -333,7 +341,10 @@ def end_build_docker_image(request):
 
     indata = json.loads(str_json)
     indata['user_id'] = request.user.id
-    indata['docker_registry'] = settings.DOCKER_REGISTRY
+    if settings.DOCKER_SINGLE_HOST == True:
+        indata['docker_registry'] = "127.0.0.1:5000"
+    else:
+        indata['docker_registry'] = settings.DOCKER_REGISTRY
     indata['docker_client'] = settings.DOCKER_CLIENT
 
     # run logic
@@ -362,7 +373,10 @@ def begin_push_docker_image(request):
 
     indata = json.loads(str_json)
     indata['user_id'] = request.user.id
-    indata['docker_registry'] = settings.DOCKER_REGISTRY
+    if settings.DOCKER_SINGLE_HOST == True:
+        indata['docker_registry'] = "127.0.0.1:5000"
+    else:
+        indata['docker_registry'] = settings.DOCKER_REGISTRY
     indata['docker_client'] = settings.DOCKER_CLIENT
 
     # run logic
@@ -397,7 +411,11 @@ def push_docker_image(request):
 
     try:
         cl = Client(settings.DOCKER_CLIENT)
-        image_tag = "%s/%s/%s:%s" % (settings.DOCKER_REGISTRY,docker_image['user'],docker_image['name'],docker_image['version'])
+        
+        if settings.DOCKER_SINGLE_HOST == True:
+            image_tag = "%s/%s/%s:%s" % ("127.0.0.1:5000",docker_image['user'],docker_image['name'],docker_image['version'])
+        else:
+            image_tag = "%s/%s/%s:%s" % (settings.DOCKER_REGISTRY,docker_image['user'],docker_image['name'],docker_image['version'])
 
         return StreamingHttpResponse(output for output in cl.push(image_tag, stream=True,insecure_registry=True))
 
@@ -426,7 +444,10 @@ def end_push_docker_image(request):
 
     indata = json.loads(str_json)
     indata['user_id'] = request.user.id
-    indata['docker_registry'] = settings.DOCKER_REGISTRY
+    if settings.DOCKER_SINGLE_HOST == True:
+        indata['docker_registry'] = "127.0.0.1:5000"
+    else:
+        indata['docker_registry'] = settings.DOCKER_REGISTRY
     indata['docker_client'] = settings.DOCKER_CLIENT
 
     # run logic

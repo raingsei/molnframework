@@ -3,10 +3,6 @@ import threading
 import json
 import socket
 from molnframework.utils.client import Client, CookieAwareClient
-from molnframework.api import APIClient
-from molnframework.utils.system import SystemInfo
-from molnframework.core.service.metadata import ServiceMetadata,PodMetaData
-from molnframework.conf import settings
 
 class HealthReport(object):
     def __init__(self,pod_id,address,port):
@@ -60,6 +56,9 @@ class HealthReport(object):
 
 class ManagerConnector(object):
     def __init__(self,address,port):
+
+        from molnframework.api import APIClient
+
         self.address = address
         self.port = port
         #self._conn = Client(address,port)
