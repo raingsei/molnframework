@@ -112,6 +112,7 @@ def register_pod(request):
 
     return HttpResponse(response,content_type="application/json")
 
+@login_required
 def register_service(request):
     #assert isinstance(request, HttpRequest) 
 
@@ -137,26 +138,31 @@ def register_service(request):
     
     return HttpResponse(response,content_type="application/json")
     
-def get_app_resources(request):
-    assert isinstance(request, HttpRequest)
+@login_required
+def get_resources(request):
+    #assert isinstance(request, HttpRequest)
 
-    # filter other type of request
-    if request.method != "POST" and request.POST:
-        return HttpResponseBadRequest()
+    ## filter other type of request
+    #if request.method != "POST" and request.POST:
+    #    return HttpResponseBadRequest()
 
-    # dummy check just to supress the error when
-    # accesing POST directly, that is Django's pitfall
-    if len(request.POST) == 0:
-        pass
+    ## dummy check just to supress the error when
+    ## accesing POST directly, that is Django's pitfall
+    #if len(request.POST) == 0:
+    #    pass
 
-    str_json = ""
-    try:
-        str_json = request.body.decode("utf-8")
-    except:
-        return HttpResponseBadRequest()
+    #str_json = ""
+    #try:
+    #    str_json = request.body.decode("utf-8")
+    #except:
+    #    return HttpResponseBadRequest()
 
-    app_data = json.loads(str_json)
+    #app_data = json.loads(str_json)
 
+    app_data = extract_post_request(request)
+    app_data['user_id'] = request.user.id
+    app_data['kubernetes_cluster'] = settings.KUBERNETES_CLUSTER
+    app_data['external_ip'] = settings.EXTERNAL_IP
     response = GetAppResourcesLogic().execute(app_data)
 
     return HttpResponse(response,content_type="application/json")

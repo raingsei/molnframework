@@ -2,18 +2,28 @@
 from . import LogicBase
 from ..models import ComputeService,ComputePod,ComputeApp
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 class GetAppResourcesLogic(LogicBase):
 
     def execute(self, instance):
         assert isinstance(instance,dict)
 
+        user_id = instance['user_id']
         app_name = instance['app_name']
+        kubernetes_cluster = instance['kubernetes_cluster']
+        external_ip = instance['external_ip']
 
         try:
-            app = ComputeApp.objects.get(name=app_name)
+            user = User.objects.get(pk=user_id)
         except ObjectDoesNotExist:
-            return self.create_logic_fail("App [%s] does not exist" % app_name,None)
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
+        # get compute app 
+        try:
+            app = user.computeapp_set.get(name=app_name)
+        except ObjectDoesNotExist:
+            return self.create_logic_fail("App - %s is not registered" % app_name,None)
 
         pods = app.computepod_set.all()
         pod_list = list()
@@ -29,7 +39,12 @@ class GetAppResourcesLogic(LogicBase):
             for service in services:
                 service_dict = dict()
                 service_dict['name'] = service.name
-                service_dict['url'] = service.url
+
+                if kubernetes_cluster:
+                    service_dict['url'] = "http://%s:%s/%s/" % (external_ip,str(app.port),service.name)
+                else:
+                    service_dict['url'] = service.url
+
                 service_dict['registered_date'] = str(service.registered_date)
                 service_dict['meta_info'] = service.meta_info
                 services_lst.append(service_dict)

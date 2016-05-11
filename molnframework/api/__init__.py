@@ -502,7 +502,6 @@ class ComputeAppHandler(HandlerBase):
         return (res['data']['app_id'],res['data']['app_port'])        
 
     def create(self,app_name,app_author,app_number_pods,docker_image_name,app_env=dict()):
-        assert (app_env,dict)
 
         indata = dict()
         indata['app_name'] = app_name
@@ -518,6 +517,34 @@ class ComputeAppHandler(HandlerBase):
             raise ComputeAppHandlerException(res['message'])
 
         return res['data']
+
+    def get_resources(self,app_name,service_name):
+
+        assert isinstance(app_name,str)
+        assert isinstance(service_name,str)
+
+        if app_name is "":
+            raise ValueError("Invalid app_name")
+        if service_name is "":
+            raise ValueError("Invalid service_name")
+
+        # build request
+        req = dict()
+        req["app_name"] = app_name
+        
+        # submit request
+        res = self.conn.request("compute_app/get_resources/","POST",req,content_type='application/json')
+        if not res['status'] is "1":
+            raise APIClientException(res['message'])
+
+        app_model = models.ToComputeApp(res['data'])
+        services = list()
+        for pd in app_model.pods:
+            for sv in pd.services:
+                if sv.name == service_name:
+                    services.append(ServiceExecutioner(sv.name,sv.url,sv.parameters))
+
+        return services
         
 
         

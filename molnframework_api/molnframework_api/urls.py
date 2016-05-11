@@ -19,8 +19,8 @@ urlpatterns = [
     url(r'^docker/push/',views.push_docker_image),
     url(r'^compute_app/add/',views.add_compute_app),
     url(r'^compute_app/create/',views.create_compute_app),
+    url(r'^compute_app/get_resources/',views.get_resources),
     url(r'^register_service/',views.register_service,name='register service'),
     url(r'^register_pod/',views.register_pod,name='register pod'),
     url(r'^report_pod_health/',views.report_pod_health,name='report pod health'),
-    url(r'^get_app_resources/',views.get_app_resources,name='get app resources')
 ]
