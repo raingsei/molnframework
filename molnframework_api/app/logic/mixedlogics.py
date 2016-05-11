@@ -246,6 +246,8 @@ class CreateComputeAppLogic(LogicBase):
         envs["WEHA_API_PORT"] = api_port
         envs["WEHA_API_USERNAME"] = user.username
         envs["WEHA_API_PASSWORD"] = instance['password'] #TODO
+        envs["WEHA_APP_HOST"] = "0.0.0.0"
+        envs["WEHA_APP_PORT"] = str(new_app.port) #TODO this will constrain user from choose port and app host IP
 
         # load kubernetes template file
 

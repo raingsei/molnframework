@@ -18,6 +18,7 @@ items:
       spec:
         containers:
           - image: $docker_image_name
+            name: $full_app_name
             __ENV__
             ports:
             - containerPort: $app_port
