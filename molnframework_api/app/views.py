@@ -162,7 +162,7 @@ def get_resources(request):
     app_data = extract_post_request(request)
     app_data['user_id'] = request.user.id
     app_data['kubernetes_cluster'] = settings.KUBERNETES_CLUSTER
-    app_data['external_ip'] = settings.EXTERNAL_IP
+    app_data['external_ip_main'] = settings.EXTERNAL_IP_MAIN
     response = GetAppResourcesLogic().execute(app_data)
 
     return HttpResponse(response,content_type="application/json")

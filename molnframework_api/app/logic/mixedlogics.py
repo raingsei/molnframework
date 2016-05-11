@@ -249,6 +249,13 @@ class CreateComputeAppLogic(LogicBase):
         envs["WEHA_APP_HOST"] = "0.0.0.0"
         envs["WEHA_APP_PORT"] = str(new_app.port) #TODO this will constrain user from choose port and app host IP
 
+        # prepare external ips
+        ips = external_IP.split(",")
+        ips_str = ""
+        for ip in ips:
+            ips_str += "\"%s\"," % ip
+        ips_str = ips_str[:-1]
+
         # load kubernetes template file
 
         try:
@@ -271,7 +278,7 @@ class CreateComputeAppLogic(LogicBase):
                 number_of_pods=str(app_number_pods),
                 docker_image_name=docker_image_name_local,
                 app_port=str(new_app.port),
-                external_IP=external_IP)
+                external_IP=ips_str)
 
             kub_app = kub_app.replace("__ENV__",envs_str)
             kube_error = False

@@ -1,3 +1,4 @@
+from urllib.parse import urlparse
 
 from . import LogicBase
 from ..models import ComputeService,ComputePod,ComputeApp
@@ -12,7 +13,7 @@ class GetAppResourcesLogic(LogicBase):
         user_id = instance['user_id']
         app_name = instance['app_name']
         kubernetes_cluster = instance['kubernetes_cluster']
-        external_ip = instance['external_ip']
+        external_ip_main = instance['external_ip_main']
 
         try:
             user = User.objects.get(pk=user_id)
@@ -41,7 +42,8 @@ class GetAppResourcesLogic(LogicBase):
                 service_dict['name'] = service.name
 
                 if kubernetes_cluster:
-                    service_dict['url'] = "http://%s:%s/%s/" % (external_ip,str(app.port),service.name)
+                    purl = urlparse(service.url)
+                    service_dict['url'] = "http://%s:%s%s" % (external_ip_main,str(app.port),purl.path)
                 else:
                     service_dict['url'] = service.url
 

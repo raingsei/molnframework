@@ -34,4 +34,4 @@ items:
       targetPort: $app_port
     selector:
       app: $full_app_name
-    externalIPs: ["$external_IP"]
+    externalIPs: [$external_IP]
