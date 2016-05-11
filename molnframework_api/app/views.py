@@ -511,6 +511,9 @@ def create_compute_app(request):
     indata['docker_registry'] = settings.DOCKER_REGISTRY
     indata['external_IP'] = settings.EXTERNAL_IP
     indata['base_dir'] = settings.BASE_DIR
+    indata['validate_docker_image'] = settings.VALIDATE_DOCKER_IMAGE
+    indata['api_host'] = settings.API_HOST
+    indata['api_port'] = settings.API_PORT
 
     response = CreateComputeAppLogic().execute(indata)
 

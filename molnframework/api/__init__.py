@@ -280,6 +280,8 @@ class APIClient(object):
         connection.csrf_token = ""
         connection.client = None
         connection.close = None
+        connection.username = ""
+        connection.password = ""
 
     def connect(self):
         # create connection and login
@@ -287,6 +289,8 @@ class APIClient(object):
         connection = APIConnection()
         connection.client = CookieAwareClient(self._host,self._port)
         connection.csrf_token,connection.session_id = self._login(connection.client)
+        connection.username = self._username
+        connection.password = self._password
         connection.close = lambda: self._logout(connection)
 
         return connection
@@ -303,6 +307,12 @@ class APIConnection(ConnectionBase):
         self.client = None
         self.csrf_token = ""
         self.session_id = ""
+        
+        # TODO
+        # Never send username and password
+
+        self.username = ""
+        self.password = ""
 
     def request(self,path,method,data=None,content_type='application/x-www-form-urlencoded'):
         try:
@@ -491,15 +501,17 @@ class ComputeAppHandler(HandlerBase):
 
         return (res['data']['app_id'],res['data']['app_port'])        
 
-    def create(self,app_name,app_author,app_number_pods,docker_image_name):
+    def create(self,app_name,app_author,app_number_pods,docker_image_name,app_env=dict()):
+        assert (app_env,dict)
 
         indata = dict()
         indata['app_name'] = app_name
         indata['app_author'] = app_author
         indata['app_number_pods'] = app_number_pods
+        indata['app_env'] = json.dumps(app_env)
+        indata['password'] = self.conn.password
         indata['docker_image_name'] = docker_image_name
-
-
+        
         res = self.conn.request("compute_app/create/","POST",indata,content_type='application/json')
         
         if not res['status'] is "1":

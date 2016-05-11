@@ -1,5 +1,6 @@
 import datetime
 import os
+import json
 from docker import Client
 from string import Template
 
@@ -186,10 +187,14 @@ class CreateComputeAppLogic(LogicBase):
         app_name = instance['app_name']
         app_author = instance['app_author']
         app_number_pods = instance['app_number_pods']
+        app_env = instance['app_env']
         docker_image_name = instance['docker_image_name']
         docker_registry = instance['docker_registry']
         external_IP = instance['external_IP']
         base_dir = instance['base_dir']
+        api_host = instance['api_host']
+        api_port = instance['api_port']
+        validate_docker_image = instance['validate_docker_image']
 
         # verify user
         try:
@@ -205,21 +210,22 @@ class CreateComputeAppLogic(LogicBase):
         # append local registry address
         docker_image_name_local = "%s/%s/%s" % (docker_registry,user.username,docker_image_name)
 
-        # verify docker image
-        docker_image = None
-        for dck in user.dockerimage_set.all():
-            img_name = "%s/%s/%s:%s" % (docker_registry,user.username,dck.name,dck.version)
-            if img_name == docker_image_name_local:
-                docker_image = dck
-                break
-        if docker_image == None:
-            return self.create_logic_fail("docker image name = %s does not exist" % docker_image_name,None)
+        if validate_docker_image:
+            # verify docker image
+            docker_image = None
+            for dck in user.dockerimage_set.all():
+                img_name = "%s/%s/%s:%s" % (docker_registry,user.username,dck.name,dck.version)
+                if img_name == docker_image_name_local:
+                    docker_image = dck
+                    break
+            if docker_image == None:
+                return self.create_logic_fail("docker image name = %s does not exist" % docker_image_name,None)
 
-        if docker_image.build_status != "OK":
-            return self.create_logic_fail("docker image name = %s has not been built propery!" % docker_image_name,None)
+            if docker_image.build_status != "OK":
+                return self.create_logic_fail("docker image name = %s has not been built propery!" % docker_image_name,None)
 
-        if docker_image.push_status != "P":
-            return self.create_logic_fail("docker image name = %s has not been pushed to the registry yet!" % docker_image_name,None)
+            if docker_image.push_status != "P":
+                return self.create_logic_fail("docker image name = %s has not been pushed to the registry yet!" % docker_image_name,None)
 
         data = dict()
         try:
@@ -233,9 +239,25 @@ class CreateComputeAppLogic(LogicBase):
         except Exception as e:
             return self.create_logic_fail(str(e),None)
 
+
+        # prepare env
+        envs = json.loads(app_env)
+        envs["WEHA_API_HOST"] = api_host
+        envs["WEHA_API_PORT"] = api_port
+        envs["WEHA_API_USERNAME"] = user.username
+        envs["WEHA_API_PASSWORD"] = instance['password'] #TODO
+
         # load kubernetes template file
 
         try:
+            epath = os.path.join(base_dir,"app","template","kube_env_template.txt")
+            with open(epath) as f:
+                elines = f.readlines()
+            econtent = "".join(line for line in elines)
+            env_template = Template(econtent)
+            envs_str = "env:"
+            for env in envs:
+                envs_str += "\n" + env_template.substitute(name=env,value=envs[env])
 
             tpath = os.path.join(base_dir,"app","template","kube_app_template.txt")
             with open(tpath) as f:
@@ -249,6 +271,7 @@ class CreateComputeAppLogic(LogicBase):
                 app_port=str(new_app.port),
                 external_IP=external_IP)
 
+            kub_app = kub_app.replace("__ENV__",envs_str)
             kube_error = False
             # run kubernetes commands
             

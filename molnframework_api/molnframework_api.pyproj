@@ -60,6 +60,7 @@
     <Content Include="app\template\kube_app_template.txt">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="app\template\kube_env_template.txt" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
