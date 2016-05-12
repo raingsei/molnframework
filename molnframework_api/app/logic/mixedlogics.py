@@ -283,7 +283,7 @@ class CreateComputeAppLogic(LogicBase):
             kub_app = kub_app.replace("__ENV__",envs_str)
 
             # create yaml file
-            yaml_path = os.path.join(base_dir,"app","tmp","%s-%s.yaml" % (user.name,app_name))
+            yaml_path = os.path.join(base_dir,"app","tmp","%s-%s.yaml" % (user.username,app_name))
             with open(yaml_path,"w") as yaml_fp:
                 yaml_fp.write(kub_app)
 
