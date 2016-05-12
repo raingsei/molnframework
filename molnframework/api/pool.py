@@ -37,7 +37,7 @@ class ResourcePool(object):
             resource = self._resources.get()
         else:
             resource = self._resources.get(True,timeout)
-        return 
+        return resource
 
     def release(self,resource):
         self._resources.put(resource)

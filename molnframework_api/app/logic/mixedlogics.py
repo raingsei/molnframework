@@ -6,6 +6,7 @@ from string import Template
 
 from . import LogicBase
 from ..models import ComputeService,ComputePod,ComputeApp,DockerImage
+from ..helper import KubectlCommand
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
@@ -239,26 +240,25 @@ class CreateComputeAppLogic(LogicBase):
         except Exception as e:
             return self.create_logic_fail(str(e),None)
 
-
-        # prepare env
-        envs = json.loads(app_env)
-        envs["WEHA_API_HOST"] = api_host
-        envs["WEHA_API_PORT"] = api_port
-        envs["WEHA_API_USERNAME"] = user.username
-        envs["WEHA_API_PASSWORD"] = instance['password'] #TODO
-        envs["WEHA_APP_HOST"] = "0.0.0.0"
-        envs["WEHA_APP_PORT"] = str(new_app.port) #TODO this will constrain user from choose port and app host IP
-
-        # prepare external ips
-        ips = external_IP.split(",")
-        ips_str = ""
-        for ip in ips:
-            ips_str += "\"%s\"," % ip
-        ips_str = ips_str[:-1]
-
         # load kubernetes template file
 
         try:
+            # prepare env
+            envs = json.loads(app_env)
+            envs["WEHA_API_HOST"] = api_host
+            envs["WEHA_API_PORT"] = api_port
+            envs["WEHA_API_USERNAME"] = user.username
+            envs["WEHA_API_PASSWORD"] = instance['password'] #TODO
+            envs["WEHA_APP_HOST"] = "0.0.0.0"
+            envs["WEHA_APP_PORT"] = str(new_app.port) #TODO this will constrain user from choose port and app host IP
+
+            # prepare external ips
+            ips = external_IP.split(",")
+            ips_str = ""
+            for ip in ips:
+                ips_str += "\"%s\"," % ip
+            ips_str = ips_str[:-1]
+
             epath = os.path.join(base_dir,"app","template","kube_env_template.txt")
             with open(epath) as f:
                 elines = f.readlines()
@@ -281,13 +281,16 @@ class CreateComputeAppLogic(LogicBase):
                 external_IP=ips_str)
 
             kub_app = kub_app.replace("__ENV__",envs_str)
-            kube_error = False
-            # run kubernetes commands
-            
-            if kube_error:
-                raise Exception("Error while running kubernetes command!")
-        
 
+            # create yaml file
+            yaml_path = os.path.join(base_dir,"app","tmp","%s-%s.yaml" % (user.name,app_name))
+            with open(yaml_path,"w") as yaml_fp:
+                yaml_fp.write(kub_app)
+
+            # run kubernetes commands
+            kubectlCmd = KubectlCommand()
+            kubectlCmd.execute("create -f %s" % yaml_path)
+            
             # uppdate app status 
 
             new_app.kube_app = kub_app

@@ -25,6 +25,9 @@
   <ItemGroup>
     <Compile Include="app\admin.py" />
     <Compile Include="app\apps.py" />
+    <Compile Include="app\helper\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\logic\addlogics.py">
       <SubType>Code</SubType>
     </Compile>
@@ -52,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app" />
+    <Folder Include="app\helper\" />
     <Folder Include="app\logic\" />
+    <Folder Include="app\tmp\" />
     <Folder Include="app\template\" />
     <Folder Include="molnframework_api" />
   </ItemGroup>
@@ -61,6 +66,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="app\template\kube_env_template.txt" />
+    <Content Include="app\tmp\empty.yaml" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
