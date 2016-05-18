@@ -311,5 +311,28 @@ class CreateComputeAppLogic(LogicBase):
         # return success logic
         return self.create_logic_success("A new app has successfully created",data)
 
+class RemoveComputeAppLogic(LogicBase):
+
+    def execute(self, instance):
+        assert isinstance(instance,dict)
+
+        user_id = instance['user_id']
+        app_name = instance['app_name']
+
+        # verify user
+
+        try:
+            user = User.objects.get(pk=user_id)
+        except:
+            return self.create_logic_fail("User - %s is not registered" % user_id,None)
+
+        # verify app
+        exist_app = user.computeapp_set.filter(name=app_name)
+        if len (exist_app) != 0:
+            return self.create_logic_fail("")
+
+
+
+
 
 

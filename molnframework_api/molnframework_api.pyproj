@@ -31,6 +31,9 @@
     <Compile Include="app\logic\addlogics.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\logic\deletelogics.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\logic\getlogics.py">
       <SubType>Code</SubType>
     </Compile>

@@ -15,3 +15,4 @@ MF_USERNAME = os.environ.get('WEHA_API_USERNAME')
 MF_PASSWORD = os.environ.get('WEHA_API_PASSWORD')
 MANAGER_ADDRESS = os.environ.get('WEHA_API_HOST')
 MANAGER_PORT = os.environ.get('WEHA_API_PORT')
+NO_THREADING = False

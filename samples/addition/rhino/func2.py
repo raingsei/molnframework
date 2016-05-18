@@ -1,3 +1,5 @@
+import time
+import random
 from molnframework.core.service.base import ServiceBase
 
 class TestFunctionService (ServiceBase):
@@ -9,10 +11,13 @@ class TestFunctionService (ServiceBase):
     # service configuration
     
     parameters = ['x','y','z']
-    is_single_instance = True
+    is_single_instance = False
     address='tryme'
 
     def execute(self):
+
+        #time.sleep(random.randint(0,3))
+
         return self.x + self.y + self.z
 
 

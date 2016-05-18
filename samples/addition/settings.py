@@ -14,7 +14,7 @@ APP_NAME = 'sample'
 
 HEALTH_PATH = 'health/report/'
 
-IGNORE_API = False
+IGNORE_API = True
 
 MF_USERNAME = "admin"
 
@@ -23,5 +23,7 @@ MF_PASSWORD = "cambodia"
 INSTALLED_SERVICES = (
     'rhino.func2.TestFunctionService',
 )
+
+NO_THREADING = False
 
 

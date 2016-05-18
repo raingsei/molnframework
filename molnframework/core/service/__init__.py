@@ -79,9 +79,9 @@ class ServiceDecorator(object):
 
     def get_service(self):
         if self.service.is_single_instance:
-            return ServiceConfig.new(self.service)
-        else:
             return self.service
+        else:
+            return ServiceConfig.new(self.service)
 
     def get_label(self):
         #assert isinstance(service,ServiceBase)
