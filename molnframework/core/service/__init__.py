@@ -52,7 +52,7 @@ class ServiceDecorator(object):
     regexp_lookup = {
         ParameterType.Integer:'(-?\d+)',
         ParameterType.Double:'(-?\d*\.{0,1}\d+)',
-        ParameterType.String:'([\w]+)',
+        ParameterType.String:'(.*)',
         }
 
 
